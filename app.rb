@@ -21,7 +21,7 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
       user_id = message.from.id
       # result = redis.get(user_id)
 
-      pp result
+      # pp result
 
       # if result == 'subscribed'
       #   bot.api.send_message(chat_id: message.from.id, text: "Вы уже воспользовались промо-кодом")
@@ -36,15 +36,15 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
         pp '----------------'
 
         if response['ok'] && response['result']['status'] != 'left'
-          redis.set(user_id, 'subscribed')
+          # redis.set(user_id, 'subscribed')
           bot.api.send_message(chat_id: message.from.id, text: "Ваш промо код: GLASSNAYA2023")
         else
           bot.api.send_message(chat_id: message.from.id, text: "Ошибка, вы не подписаны на канал")
-          redis.set(user_id, 'unsubscribed')
+          # redis.set(user_id, 'unsubscribed')
         end
       rescue Telegram::Bot::Exceptions::ResponseError
         bot.api.send_message(chat_id: message.from.id, text: "Ошибка, вы не подписаны на канал")
-        redis.set(user_id, 'unsubscribed')
+        # redis.set(user_id, 'unsubscribed')
       end
       # end
     elsif message.is_a?(Telegram::Bot::Types::Message) && message.text == '/stop'
