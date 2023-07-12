@@ -6,7 +6,7 @@ TOKEN = '6327313015:AAHvCUTfp8nchxAEeizY1cCvVE_ZDz_ZrM4'
 
   pp '----------------'
   pp 'starting tg bot....'
-  redis = Redis.new
+  # redis = Redis.new
 
 Telegram::Bot::Client.run(TOKEN) do |bot|
   pp 'bot started!'
@@ -19,32 +19,34 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
 
     if message.is_a?(Telegram::Bot::Types::CallbackQuery) && message.data == 'check'
       user_id = message.from.id
-      result = redis.get(user_id)
+      # result = redis.get(user_id)
 
       pp result
 
-      if result == 'subscribed'
-        bot.api.send_message(chat_id: message.from.id, text: "Вы уже воспользовались промо-кодом")
-      else
-        begin
-          response = bot.api.get_chat_member(chat_id: -1001984875682, user_id: user_id)
+      # if result == 'subscribed'
+      #   bot.api.send_message(chat_id: message.from.id, text: "Вы уже воспользовались промо-кодом")
+      # else
+      begin
+        # my channel -1001984875682
+        # glassnaya -1001195620030
+        response = bot.api.get_chat_member(chat_id: -1001195620030, user_id: user_id)
 
-          pp '----------------'
-          pp response
-          pp '----------------'
+        pp '----------------'
+        pp response
+        pp '----------------'
 
-          if response['ok'] && response['result']['status'] != 'left'
-            redis.set(user_id, 'subscribed')
-            bot.api.send_message(chat_id: message.from.id, text: "Ваш промо код: iddqd")
-          else
-            bot.api.send_message(chat_id: message.from.id, text: "Ошибка, вы не подписаны на канал")
-            redis.set(user_id, 'unsubscribed')
-          end
-        rescue Telegram::Bot::Exceptions::ResponseError
+        if response['ok'] && response['result']['status'] != 'left'
+          redis.set(user_id, 'subscribed')
+          bot.api.send_message(chat_id: message.from.id, text: "Ваш промо код: GLASSNAYA2023")
+        else
           bot.api.send_message(chat_id: message.from.id, text: "Ошибка, вы не подписаны на канал")
           redis.set(user_id, 'unsubscribed')
         end
+      rescue Telegram::Bot::Exceptions::ResponseError
+        bot.api.send_message(chat_id: message.from.id, text: "Ошибка, вы не подписаны на канал")
+        redis.set(user_id, 'unsubscribed')
       end
+      # end
     elsif message.is_a?(Telegram::Bot::Types::Message) && message.text == '/stop'
       bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
     else
