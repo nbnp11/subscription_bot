@@ -52,7 +52,7 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
     else
       greeting = 'Что бы получить скидку 10% на первый заказ подпишитесь на канал и нажмите кнопку "Получить промокод🥳".'
 
-      subscribe_button = Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Подписаться на "GLASSNAYA"', url: 'https://t.me/+GOzCDwkfFzkwOTMy')
+      subscribe_button = Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Подписаться на "GLASSNAYA"', url: 'https://t.me/glassnaya')
       get_promo_button = Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Получить промокод🥳', callback_data: 'check')
       keyboard = Telegram::Bot::Types::InlineKeyboardMarkup.new(
         inline_keyboard: [
