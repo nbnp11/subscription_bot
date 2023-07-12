@@ -2,7 +2,7 @@ require 'telegram/bot'
 require 'redis'
 require 'pry'
 
-TOKEN = '6327313015:AAHvCUTfp8nchxAEeizY1cCvVE_ZDz_ZrM4'
+TOKEN = ENV['token'].to_s.freeze
 
   pp '----------------'
   pp 'starting tg bot....'
