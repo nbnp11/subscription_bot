@@ -50,6 +50,7 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
     elsif message.is_a?(Telegram::Bot::Types::Message) && message.text == '/stop'
       bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
     else
+      next if message.chat.id.negative?
       greeting = 'Что бы получить скидку 10% на первый заказ подпишитесь на канал и нажмите кнопку "Получить промокод🥳".'
 
       subscribe_button = Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Подписаться на "GLASSNAYA"', url: 'https://t.me/glassnaya')
